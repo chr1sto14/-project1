@@ -30,6 +30,9 @@ int main() {
 		} 	
 	}
 	printf("%s\n",S);
-	printf(array);
+	for (int i=0;i<strlen(array);i++) {
+		printf(array[i]);	
+	}
+	
 	fclose(f);
 }

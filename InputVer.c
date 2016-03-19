@@ -26,7 +26,7 @@ int main() {
 	int i = 0;
 	int j = 0;
 	int k = 0;
-	while (S[k] != NULL) { //collect numbers into a matrix
+	while (S[k] != '\0') { //collect numbers into a matrix
 		printf("S[k] = %c\n",S[k]);
 		if ((S[k] == '\n') && (S[k+1]!='\n')) {	
 			i++; //problem bc have two end of line chars (i is being updated to 3 when it should be 2
@@ -35,18 +35,20 @@ int main() {
 		}
 		else if ((S[k] != ' ') && (S[k] != '\n')){
 			printf("Add to mat\n");
-			array[i][j] = (int)S[k];
+			array[i][j] = S[k] - '0';
+			printf("array[%d][%d] = %d\n",i,j,array[i][j]);
 			j++;	
 		}
 		printf("update k\n"); 
 		k++;	
 	}
-	printf("%d\n",array[0][0]); //for some reason this is printing 51
-	printf("b");
+	printf("array[0][0]=%d\n",array[0][0]);
+	
 	//Print the matrix
+	printf("printing matrix\n");
 	for (int a = 0; a<matSize; a++) {
 		for (int b=0; b<matSize; b++) {
-			printf("%d",array[i][j]);
+			printf("array[%d][%d] = %d\n",a,b,array[a][b]);
 		}
 		printf("\n");
 	}

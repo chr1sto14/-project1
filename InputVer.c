@@ -14,35 +14,28 @@ int main() {
 	char str[1000];
 	char S[1000];
 	while (fgets(str, 1000, f) != NULL) {
-		//printf("%s",str);
 		strcat(S, str); //collect input into a string
 	}
 	printf("%s\n",S);
-	printf("length of S: %lu\n",strlen(S));
-	printf("\n");
 
 	int array[matSize][matSize];
-	printf("a\n");
 	int i = 0;
 	int j = 0;
 	int k = 0;
+	char out[1000];
+	
 	while (S[k] != '\0') { //collect numbers into a matrix
-		printf("S[k] = %c\n",S[k]);
 		if ((S[k] == '\n') && (S[k+1]!='\n')) {	
-			i++; //problem bc have two end of line chars (i is being updated to 3 when it should be 2
+			i++; 
 			j=0;
-			printf("i++; j=0\n");
 		}
 		else if ((S[k] != ' ') && (S[k] != '\n')){
-			printf("Add to mat\n");
 			array[i][j] = S[k] - '0';
-			printf("array[%d][%d] = %d\n",i,j,array[i][j]);
 			j++;	
 		}
-		printf("update k\n"); 
 		k++;	
 	}
-	printf("array[0][0]=%d\n",array[0][0]);
+	
 	
 	//Print the matrix
 	printf("printing matrix\n");
@@ -51,6 +44,48 @@ int main() {
 			printf("array[%d][%d] = %d\n",a,b,array[a][b]);
 		}
 		printf("\n");
+	}
+	
+	//Need to change the c==0,2 and d==0,2,3 to automatically change depending on input size
+	printf("FIX ME: print input file name\n");
+	for (int c = 0; c<matSize; c++) {
+		if (c==0)  {
+			printf("-------------\n");
+		}
+		else if (c==2) {
+			printf("------+------\n");
+		}
+		for (int d=0; d<matSize; d++) {
+			if ((d==0) || (d==2)) {
+				printf("| ");
+				if (array[c][d]==0) {
+					printf(". ");
+				}
+				else {
+					printf("%d ", array[c][d]);
+				}
+			}
+			else if (d==3) {
+				if (array[c][d]==0) {
+					printf(". ");
+				}
+				else {
+				printf("%d ", array[c][d]);
+				}
+				printf("|\n");
+			}
+			else {
+				if (array[c][d]==0) {
+					printf(". ");
+				}
+				else {
+				printf("%d ", array[c][d]);
+				}
+			}
+		}
+		if (c==3) {
+			printf("-------------\n");	
+		}
 	}
 	fclose(f);
 }

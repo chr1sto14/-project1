@@ -1,8 +1,26 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
-//Print the matrix
-int matSize = 9;
+
+void input(int matSize, int array[matSize][matSize], char *filename) {
+	//**************************** Open the file ********************************
+	FILE *f; //create file pointer
+	f = fopen("notvalidex.txt", "r"); //open file
+	if (f == NULL) {
+		printf("Error: File not found\n");
+		fclose(f);
+	}
+	//***************************************************************************
+	
+	char str[12];
+	char S[1000];
+	while (fgets(str, 12, f) != NULL) {
+		strcat(S, str); //collect input into a string
+	}
+	//printf("%s\n",S);
+
+//Print the matrix in raw form
 void printMat(int array[matSize][matSize], int matSize) {
 	printf("printing matrix\n");
 	for (int a = 0; a<matSize; a++) {
@@ -38,21 +56,7 @@ int is_block_valid(int block[]) {
 }
 	
 int main() {
-//**************************** Open the file ********************************
-	FILE *f; //create file pointer
-	f = fopen("notvalidex.txt", "r"); //open file
-	if (f == NULL) {
-		printf("Error: File not found\n");
-		fclose(f);
-	}
-//***************************************************************************	
-	int matSize = 9;
-	char str[1000];
-	char S[1000];
-	while (fgets(str, 1000, f) != NULL) {
-		strcat(S, str); //collect input into a string
-	}
-	//printf("%s\n",S);
+
 
 	int array[matSize][matSize];
 	int i = 0;

@@ -66,7 +66,7 @@ int is_row_valid(int matSize, int array[matSize][matSize], int row) {
 // return 1 for valid
 int is_col_valid(int matSize, int array[matSize][matSize], int col) {
 	for(int i=0;i<matSize;i++) {
-		for (int j=i+1;j<matSize;j++) {
+		for (int j=i+1; j<matSize;j++) {
 			if (array[i][col] == 0) {
 				return 0;
 			}
@@ -162,12 +162,12 @@ int is_block_valid(int matSize, int array[matSize][matSize], int block) {
 // return 1 if valid
 int verify(int matSize, int array[matSize][matSize]) {
 	for (int itr = 0; itr < matSize; itr++) { //check rows & cols
-		if (~(is_row_valid(matSize,array,itr) || ~(is_col_valid(matSize,array,itr)) {
+		if (!is_row_valid(matSize,array,itr) || !is_col_valid(matSize,array,itr)) {
 			return 0;
 		}
 	}
 	for (int blck = 1; blck <= 4; blck++) { //check blocks
-		if (~(is_block_valid(matSize,array,blck))) {
+		if (!(is_block_valid(matSize,array,blck))) {
 			return 0;
 		}
 	}
@@ -197,7 +197,7 @@ void output(int matSize, int array[matSize][matSize], char *filename) {
 			printf("-------------------------\n");
 		}
 		else if ((c==3) || (c==6) ) {
-			printf("--------+--------+--------\n");
+			printf("--------+--------+-------\n");
 		}
 		for (int d=0; d<matSize; d++) { // iterate through cols
 			if ((d==0) || (d==3) || (d==6) ) { //printf | before the numbers
@@ -252,8 +252,8 @@ int main() {
 	output(matSize,sudokuArray,filename);
 	
 	
-	printf("array[0]: %p\n",array[0]);
-	printf("size of array: %d\n", sizeof(array)/sizeof(array[0]));
+	printf("\narray[0]: %p\n",sudokuArray);
+	printf("size of array: %d\n", sizeof(sudokuArray)/sizeof(sudokuArray[0]));
 	
 
 }

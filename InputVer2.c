@@ -1,6 +1,12 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <math.h>
+
+// Point structure to hold x and y coordinates
+struct Point2D {
+	int row, col;
+};
 
 // Input
 //  -Open file
@@ -61,6 +67,23 @@ int is_row_valid(int matSize, int array[matSize][matSize], int row) {
 	
 }
 
+// Check specified row for non-repeating
+// return 0 for invalid
+// return 1 for valid
+int is_row_valid2(int matSize, int array[matSize][matSize], struct Point2D pnt) {
+	for(int i = 0; i < pnt.col; i++) { // iterate through columns less than point
+		if (array[pnt.row][pnt.col] == array[pnt.row][i]) {
+			return 0;
+		}
+	}
+	for(int i = pnt.col + 1; i < matSize; i++) { // iterate through columns greater than point
+		if (array[pnt.row][pnt.col] == array[pnt.row][i]) {
+			return 0;
+		}
+	}
+	return 1;
+}
+
 // Check specified col for non-zero, non-repeating
 // return 0 for invalid
 // return 1 for valid
@@ -77,6 +100,24 @@ int is_col_valid(int matSize, int array[matSize][matSize], int col) {
 	}
 	return 1;
 	
+}
+
+
+// Check specified col for non-repeating
+// return 0 for invalid
+// return 1 for valid
+int is_col_valid2(int matSize, int array[matSize][matSize], struct Point2D pnt) {
+	for(int i = 0; i < pnt.row; i++) { // iterate through rows less than point
+		if (array[pnt.row][pnt.col] == array[i][pnt.col]) {
+			return 0;
+		}
+	}
+	for(int i = pnt.row + 1; i < matSize; i++) { // iterate through columns greater than point
+		if (array[pnt.row][pnt.col] == array[i][pnt.col]) {
+			return 0;
+		}
+	}
+	return 1;
 }
 
 // Check specified block for non-zero, non-repeating
@@ -152,6 +193,35 @@ int is_block_valid(int matSize, int array[matSize][matSize], int block) {
 					return 0;
 				}
 			}
+		}
+	}
+	return 1;
+}
+//
+// Check specified block for non-repeating
+// return 0 for invalid
+// return 1 for valid
+int is_block_valid2(int matSize, int array[matSize][matSize],struct Point2D pnt) {
+	
+	int startingRow = (int)(pnt.row / sqrt(matSize) ) * sqrt(matSize);
+	int startingCol = (int)(pnt.col / sqrt(matSize) ) * sqrt(matSize);
+	int endingRow = startingRow + (int)sqrt(matSize);
+	int endingCol = startingCol + (int)sqrt(matSize);
+
+	int tmpArray[matSize];
+	int count = 0;
+	for (int i = startingRow; i < endingRow; i++) { //reformat block into an array
+		for (int j = startingCol; j < endingCol; j++) {
+			if ( (i == pnt.row) && (j == pnt.col)) {
+				continue;
+			}
+			tmpArray[count] = array[i][j];
+			count++;
+		}
+	}
+	for (int m = 0; m < matSize - 1; m++) { //check validity
+		if (array[pnt.row][pnt.col] == tmpArray[m]) {
+				return 0;
 		}
 	}
 	return 1;
@@ -251,6 +321,11 @@ int main() {
 	printf("is sudoku valid? %d\n",verify(matSize,sudokuArray));
 	output(matSize,sudokuArray,filename);
 	
+	struct Point2D testPnt; testPnt.row = 5; testPnt.col = 6;
+	printf("is row 5 valid? %d\n",is_row_valid2(matSize,sudokuArray,testPnt));
+	printf("is col 6 valid? %d\n",is_col_valid2(matSize,sudokuArray,testPnt));
+	printf("is middle right block valid? %d\n",is_block_valid2(matSize,sudokuArray,testPnt));
+
 	
 	printf("\narray[0]: %p\n",sudokuArray);
 	printf("size of array: %d\n", sizeof(sudokuArray)/sizeof(sudokuArray[0]));

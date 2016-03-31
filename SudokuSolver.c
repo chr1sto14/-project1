@@ -23,8 +23,9 @@ void input(int matSize, int array[matSize][matSize], char *filename) {
 	//***************************************************************************
 	
 	char str[1000];
-	char S[1000];
-	while (fgets(str, 12, f) != NULL) {
+	char S[1000] = "";
+	getchar();
+	while (fgets(str, 50, f) != NULL) {
 		strcat(S, str); //collect input into a string
 	}
 	

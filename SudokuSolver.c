@@ -4,6 +4,10 @@
 #include <math.h>
 #include "SudokuVer.c"
 
+//Project 1
+// Katy Robison
+// Christopher Miller
+
 // Point structure to hold x and y coordinates
 struct Point2D {
 	int row, col;

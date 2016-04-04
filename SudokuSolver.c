@@ -136,25 +136,22 @@ void printMat(int matSize, int array[matSize][matSize]) {
 	printf("printing matrix\n");
 	for (int a = 0; a<matSize; a++) {
 		for (int b=0; b<matSize; b++) {
-			//printf("array[%d][%d] = %d\n",a,b,array[a][b]);
 			printf("%d",array[a][b]);
 		}
 		printf("\n");
 	}
 }
 
+// Method to recursively solve sudoku
+// Input matrix size, matrix, and Point2D of empty array
 int canSolve(int matSize, int array[matSize][matSize],struct Point2D pt) {
-	for (int i=1;i<=matSize;i++) {
+	for (int i=1;i<=matSize;i++) { // guess values
 		array[pt.row][pt.col] = i;
-		//printf("Guess: array[%d][%d] = %d\n",pt.row, pt.col, i);
 		
 		if ( (is_row_valid2(matSize, array, pt)) && (is_col_valid2(matSize, array, pt))  && (is_block_valid2(matSize, array, pt)) ) {
-			//printMat(9,array);
-			struct Point2D nextPoint;
+			struct Point2D nextPoint; // make next empty pointer
 			if (nextEmpty(matSize, array, &nextPoint) ) {
-				//printf("nextEmpty: %d %d \n", nextPoint.row, nextPoint.col);
 				if (canSolve(matSize, array, nextPoint)) {
-					//printf("returning 1 inside inner if (canSolve)\n");
 					return 1;
 				}
 				
@@ -166,7 +163,7 @@ int canSolve(int matSize, int array[matSize][matSize],struct Point2D pt) {
 		
 		
 	}
-	array[pt.row][pt.col] = 0;
+	array[pt.row][pt.col] = 0; //reset back to 0
 	return 0;
 }
 //********************************************************************************
@@ -175,8 +172,6 @@ int canSolve(int matSize, int array[matSize][matSize],struct Point2D pt) {
 // Print matrix in pretty form
 void output(int matSize, int array[matSize][matSize], char *filename) {
 
-	//Need to change the c==0,2 and d==0,2,3 to automatically change depending on input size
-		// Does it need to depend on size? Can't we just assume a 9x9 sudoku? -CM 3/27/2016
 	printf("%s\n",filename);
 	for (int c = 0; c < matSize; c++) { // iterate through rows
 		if (c==0)  {
@@ -220,21 +215,25 @@ void output(int matSize, int array[matSize][matSize], char *filename) {
 }
 	
 int main() {
-	int matSize = 9;
-	int sudokuArray[matSize][matSize];
+	int matSize = 9; //dimensions of the sudoku analyzing
+	int sudokuArray[matSize][matSize]; //2D array
 	
 	char filename[50]; // filename to open
 	printf("Input file to open: ");
 	scanf("%s",filename);
 	
+	// Read the file into an array
 	input(matSize,sudokuArray,filename);
+	//Print the empty matrix
 	output(matSize,sudokuArray,filename);
 	
-	struct Point2D test;
-	nextEmpty(matSize,sudokuArray, &test);
-	if (canSolve(9,sudokuArray,test)) {
+	// Find first empty Point2D in 2D array
+	struct Point2D firstPoint;
+	nextEmpty(matSize,sudokuArray, &firstPoint);
+
+	// Return solved sudoku or let user know not solvable 
+	if (canSolve(matSize,sudokuArray,firstPoint)) {
 		output(matSize,sudokuArray,filename);
-		verify(9,sudokuArray);
 	}
 	else {
 		printf("Grid not solvable\n");
